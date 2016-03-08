@@ -26,8 +26,7 @@ public class MyTask<T> extends CompletableFuture<T> {
         if (status.equals("stopped")) {
             return status;
         }
-
-        // status should be loaded from external service
+        
         JsonNode json = conn.doGet("/task/" + taskUid);
 
         this.status = json.findPath("status").asText();

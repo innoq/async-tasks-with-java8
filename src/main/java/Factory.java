@@ -12,10 +12,11 @@ public class Factory {
         this.conn = new ConnectorMock();
     }
 
-    public MyTask<User> createUser(String userData) {
-        MyTask<User> task = User.createAccount(this.conn, userData);
-        TaskPoll taskPoll = new TaskPoll(task, scheduler);
+    public MyTask<User> createUser(String userDataAsJsonString) {
+        int taskUid = conn.doPostWithJson("/users", userDataAsJsonString);
+        MyTask<User> myTask = new MyTask<>(conn, taskUid, task -> new User(conn.doGet(task.getResultUrl())) );
+        TaskPoll taskPoll = new TaskPoll(myTask, scheduler);
         scheduler.submit(taskPoll);
-        return task;
+        return myTask;
     }
 }

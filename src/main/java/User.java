@@ -9,12 +9,5 @@ public class User {
         // parsing json and return new user object
     }
 
-    public static MyTask<User> createAccount(ConnectorMock conn, String userData) {
-        String path = "/users";
-        int taskUid = conn.doPostWithJson(path, userData);
-
-        return new MyTask<>(conn, taskUid, task -> new User(conn.doGet(task.getResultUrl())) );
-    }
-
     // ...
 }

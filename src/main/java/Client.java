@@ -9,6 +9,7 @@ public class Client {
     public static void main(String[] args) {
         ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(10);
         Factory factory = new Factory(scheduler);
+
         MyTask<User> user1Future = factory.createUser("user1");
         MyTask<User> user2Future = factory.createUser("user2");
         MyTask<User> user3Future = factory.createUser("user3");
