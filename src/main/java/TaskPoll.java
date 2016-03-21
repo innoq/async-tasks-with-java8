@@ -7,15 +7,15 @@ import java.util.concurrent.TimeoutException;
  * Created by torstenk on 07.03.16.
  */
 public class TaskPoll implements Runnable {
-    private MyTask task;
+    private APITask task;
     private ScheduledExecutorService ses;
     private int count;
 
-    public TaskPoll(MyTask task, ScheduledExecutorService ses) {
+    public TaskPoll(APITask task, ScheduledExecutorService ses) {
         this(task, ses, 0);
     }
 
-    public TaskPoll(MyTask task, ScheduledExecutorService ses, int count) {
+    public TaskPoll(APITask task, ScheduledExecutorService ses, int count) {
         this.task = task;
         this.ses = ses;
         this.count = count;

@@ -6,15 +6,15 @@ import java.util.function.Function;
 /**
  * Created by torstenk on 07.03.16.
  */
-public class MyTask<T> extends CompletableFuture<T> {
+public class APITask<T> extends CompletableFuture<T> {
     private ConnectorMock conn;
     private int taskUid;
-    private Function<MyTask<T>, T> retriever;
+    private Function<APITask<T>, T> retriever;
 
     private String status;
     private String resultUrl;
 
-    public MyTask(ConnectorMock conn, int taskUid, Function<MyTask<T>, T> retriever) {
+    public APITask(ConnectorMock conn, int taskUid, Function<APITask<T>, T> retriever) {
         this.conn = conn;
         this.taskUid = taskUid;
         this.retriever = retriever;
@@ -26,8 +26,8 @@ public class MyTask<T> extends CompletableFuture<T> {
         if (status.equals("stopped")) {
             return status;
         }
-        
-        JsonNode json = conn.doGet("/task/" + taskUid);
+
+        JsonNode json = conn.doGet("/tasks/" + taskUid);
 
         this.status = json.findPath("status").asText();
         if (status.equals("stopped")) {

@@ -6,14 +6,14 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * Created by torstenk on 07.03.16.
  */
 public class Client {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(10);
         Factory factory = new Factory(scheduler);
 
-        MyTask<User> user1Future = factory.createUser("user1");
-        MyTask<User> user2Future = factory.createUser("user2");
-        MyTask<User> user3Future = factory.createUser("user3");
-        MyTask<User> user4Future = factory.createUser("user4");
+        APITask<User> user1Future = factory.createUser("user1");
+        APITask<User> user2Future = factory.createUser("user2");
+        APITask<User> user3Future = factory.createUser("user3");
+        APITask<User> user4Future = factory.createUser("user4");
 
         User user1 = getUserFromFuture(user1Future);
         User user2 = getUserFromFuture(user2Future);
@@ -23,7 +23,7 @@ public class Client {
         scheduler.shutdown();
     }
 
-    private static User getUserFromFuture(MyTask<User> task) {
+    private static User getUserFromFuture(APITask<User> task) {
         try {
             return task.get();
         } catch (InterruptedException e) {
