@@ -9,5 +9,9 @@ public class User {
         // parsing json and return new user object
     }
 
+    public static User fromServiceResponse(JsonNode json) {
+        return new User(json);
+    }
+
     // ...
 }

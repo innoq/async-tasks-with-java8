@@ -14,7 +14,7 @@ public class Factory {
 
     public APITask<User> createUser(String userDataAsJsonString) {
         int taskUid = conn.doPostWithJson("/users", userDataAsJsonString);
-        APITask<User> apiTask = new APITask<>(conn, taskUid, task -> new User(conn.doGet(task.getResultUrl())) );
+        APITask<User> apiTask = new APITask<>(conn, taskUid, task -> User.fromServiceResponse(conn.doGet(task.getResultUrl())) );
         TaskPoll taskPoll = new TaskPoll(apiTask, scheduler);
         scheduler.submit(taskPoll);
         return apiTask;
