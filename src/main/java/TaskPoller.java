@@ -6,16 +6,16 @@ import java.util.concurrent.TimeoutException;
 /**
  * Created by torstenk on 07.03.16.
  */
-public class TaskPoll implements Runnable {
+public class TaskPoller implements Runnable {
     private APITask task;
     private ScheduledExecutorService ses;
     private int count;
 
-    public TaskPoll(APITask task, ScheduledExecutorService ses) {
+    public TaskPoller(APITask task, ScheduledExecutorService ses) {
         this(task, ses, 0);
     }
 
-    public TaskPoll(APITask task, ScheduledExecutorService ses, int count) {
+    public TaskPoller(APITask task, ScheduledExecutorService ses, int count) {
         this.task = task;
         this.ses = ses;
         this.count = count;
@@ -31,7 +31,7 @@ public class TaskPoll implements Runnable {
         } else if (count >= 10) {
             task.completeExceptionally(new TimeoutException("Task " + task.getTaskUid() + " beendet sich nicht."));
         } else {
-            ses.schedule(new TaskPoll(task, ses, count+1), 1, TimeUnit.SECONDS);
+            ses.schedule(new TaskPoller(task, ses, count+1), 1, TimeUnit.SECONDS);
         }
     }
 }
