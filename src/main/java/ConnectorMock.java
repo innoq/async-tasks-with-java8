@@ -10,13 +10,20 @@ import java.util.Date;
 public class ConnectorMock {
     private int taskUid;
 
-    public int doPostWithJson(String path, String userData) {
+    public JsonNode doPostWithJson(String path, String userData) {
         System.out.println(new Date() + " --> Sending HTTP Post Request to " + path + " with JSON data " + userData);
 
         String response = "200 OK";
         generateTaskUid();
         System.out.println(new Date() + " <-- Receiving \"" + response + "\" and taskUid " + this.taskUid);
-        return this.taskUid;
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readTree("{\"task\":\"" + this.taskUid + "\",\"self\":\"/tasks/" + this.taskUid + "\"}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void generateTaskUid() {

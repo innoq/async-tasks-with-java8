@@ -13,10 +13,11 @@ public class Factory {
     }
 
     public APITask<User> createUser(String userDataAsJsonString) {
-        int taskUid = conn.doPostWithJson("/users", userDataAsJsonString);
-        APITask<User> apiTask = new APITask<>(conn, taskUid, task -> User.fromServiceResponse(conn.doGet(task.getResultUrl())) );
-        scheduler.submit(taskPoll);
+        APITask<User> apiTask = new APITask<>(conn,
+                conn.doPostWithJson("/users", userDataAsJsonString),
+                task -> User.fromServiceResponse(conn.doGet(task.getResultUrl())) );
         TaskPoller taskPoller = new TaskPoller(apiTask, scheduler);
+        scheduler.submit(taskPoller);
         return apiTask;
     }
 }
