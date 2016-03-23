@@ -13,7 +13,7 @@ public class APITask<T> extends CompletableFuture<T> {
     private Function<APITask<T>, T> retriever;
 
     private String status;
-    private String resultUrl;
+    private String resultUri;
 
     public APITask(ConnectorMock conn, JsonNode json, Function<APITask<T>, T> retriever) {
         this.conn = conn;
@@ -32,7 +32,7 @@ public class APITask<T> extends CompletableFuture<T> {
 
         this.status = json.findPath("status").asText();
         if (status.equals("stopped")) {
-            this.resultUrl = json.findPath("result").asText();
+            this.resultUri = json.findPath("result").asText();
         }
         return status;
     }
@@ -41,8 +41,8 @@ public class APITask<T> extends CompletableFuture<T> {
         return this.taskUid;
     }
 
-    public String getResultUrl() {
-        return this.resultUrl;
+    public String getResultUri() {
+        return this.resultUri;
     }
 
     public T getResult() {
